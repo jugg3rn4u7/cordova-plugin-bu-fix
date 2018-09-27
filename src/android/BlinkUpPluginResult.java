@@ -91,12 +91,15 @@ public class BlinkUpPluginResult {
     }
     public void setDeviceInfoFromJson(JSONObject deviceInfo) {
         try {
+            Log.i(TAG, "inside setDeviceInfoFromJson");
             mDeviceId = (deviceInfo.getString(SDK_IMPEE_ID_KEY) != null) ? deviceInfo.getString(SDK_IMPEE_ID_KEY).trim() : null;
             mPlanId = deviceInfo.getString(SDK_PLAN_ID_KEY);
             mAgentURL = deviceInfo.getString(SDK_AGENT_URL_KEY);
             mVerificationDate = deviceInfo.getString(SDK_CLAIMED_AT_KEY).replace("Z", "+0:00"); // match date format to iOS
             mHasDeviceInfo = true;
+            Log.i(TAG, "inside setDeviceInfoFromJson : after assignments");
         } catch (JSONException e) {
+            Log.i(TAG, "inside setDeviceInfoFromJson : JSONException");
             mState = STATE_ERROR;
             setPluginError(BlinkUpPlugin.ERROR_JSON_ERROR);
             sendResultsToCallback();
@@ -115,6 +118,7 @@ public class BlinkUpPluginResult {
      * and sends back to the callback
      *************************************/
     public void sendResultsToCallback() {
+        Log.i(TAG, "inside sendResultsToCallback");
         JSONObject resultJSON = new JSONObject();
 
         // set result status
@@ -140,18 +144,21 @@ public class BlinkUpPluginResult {
             }
         } catch (JSONException e) {
             // don't want endless loop calling ourselves so just log error (don't send to callback)
-            Log.e(TAG, "", e);
+            Log.i(TAG, "inside sendResultsToCallback: JSONException");
         }
 
+        Log.i(TAG, "inside sendResultsToCallback: before sendPluginResult");
         PluginResult pluginResult = new PluginResult(cordovaResultStatus, resultJSON.toString());
         pluginResult.setKeepCallback(true); // uses same BlinkUpPlugin object across calls, so need to keep callback
         BlinkUpPlugin.getCallbackContext().sendPluginResult(pluginResult);
+        Log.i(TAG, "inside sendResultsToCallback: after sendPluginResult");
     }
 
     /*************************************
      * Returns JSON containing error
      *************************************/
     private JSONObject generateErrorJson() {
+        Log.i(TAG, "inside generateErrorJson");
         JSONObject errorJson = new JSONObject();
 
         try {
@@ -174,6 +181,7 @@ public class BlinkUpPluginResult {
      * Returns deviceInfo in JSON
      *************************************/
     private JSONObject generateDeviceInfoJson() {
+        Log.i(TAG, "inside generateDeviceInfoJson");
         JSONObject deviceInfoJson = new JSONObject();
 
         try {
@@ -181,7 +189,9 @@ public class BlinkUpPluginResult {
             deviceInfoJson.put(ResultKeys.PLAN_ID.getKey(), mPlanId);
             deviceInfoJson.put(ResultKeys.AGENT_URL.getKey(), mAgentURL);
             deviceInfoJson.put(ResultKeys.VERIFICATION_DATE.getKey(), mVerificationDate);
+            Log.i(TAG, "inside generateDeviceInfoJson: after deviceInfoJson");
         } catch (JSONException e) {
+            Log.i(TAG, "inside generateDeviceInfoJson: JSONException");
             mState = STATE_ERROR;
             setPluginError(BlinkUpPlugin.ERROR_JSON_ERROR);
             sendResultsToCallback();
