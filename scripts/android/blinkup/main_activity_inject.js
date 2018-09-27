@@ -55,6 +55,8 @@ module.exports = function(ctx) {
           console.log('CordovaBlinkUp Plugin: MainActivity injection successfullly');
           deferral.resolve();
         });
+      // delete the old one
+      fs.unlink(path.join(ctx.opts.projectRoot, mainActivityPath));
     });
   return deferral.promise;
 };
