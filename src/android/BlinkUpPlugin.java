@@ -49,11 +49,13 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
+        Log.i(TAG, "inside execute");
         sCallbackContext = callbackContext;
         final Activity activity = cordova.getActivity();
         final BlinkupController controller = BlinkupController.getInstance();
 
         if (START_BLINKUP.equalsIgnoreCase(action)) {
+            Log.i(TAG, "inside " + START_BLINKUP + " action");
             return startBlinkUp(activity, controller, data);
         } 
         return false;
@@ -64,6 +66,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
         try {
             mApiKey = data.getString(START_BLINKUP_ARG_API_KEY);
             timeoutMs = data.getInt(START_BLINKUP_ARG_TIMEOUT_MS);
+            Log.i(TAG, "inside startBlinkUp method");
         } catch (JSONException exc) {
             BlinkUpPluginResult.sendPluginErrorToCallback(ERROR_INVALID_ARGUMENTS);
             return false;
@@ -88,13 +91,14 @@ public class BlinkUpPlugin extends CordovaPlugin {
     }
 
     private Intent createBlinkUpCompleteIntent(Activity activity, int timeoutMs) {
+        Log.i(TAG, "inside createBlinkUpCompleteIntent method");
         Intent blinkupCompleteIntent = new Intent(activity, BlinkUpCompleteActivity.class);
         blinkupCompleteIntent.putExtra(Extras.EXTRA_TIMEOUT_MS, timeoutMs);
         return blinkupCompleteIntent;
     }
 
     private void presentBlinkUp(Activity activity, BlinkupController controller) {
-        
+        Log.i(TAG, "inside presentBlinkUp method");
         // show toast if can't acquire token
         final TokenAcquireCallback tokenAcquireCallback = new TokenAcquireCallback() {
             @Override
@@ -114,9 +118,12 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 BlinkUpPluginResult.sendPluginErrorToCallback(ERROR_VERIFY_API_KEY_FAIL);
             }
         };
-
+        Log.i(TAG, "before presentBlinkUp acquireSetupToken");
         controller.acquireSetupToken(activity, mApiKey, tokenAcquireCallback);
+        Log.i(TAG, "after presentBlinkUp acquireSetupToken");
+        Log.i(TAG, "before presentBlinkUp selectWifiAndSetupDevice");
         controller.selectWifiAndSetupDevice(activity, mApiKey, serverErrorHandler);
+        Log.i(TAG, "after presentBlinkUp selectWifiAndSetupDevice");
     }
 
     private boolean apiKeyFormatValid() {
