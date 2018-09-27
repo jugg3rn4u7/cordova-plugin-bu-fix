@@ -9,7 +9,7 @@ module.exports = function(ctx) {
   var deferral = ctx.requireCordovaModule('q').defer();
   var matchString1 = 'import org.apache.cordova.*;';
   var replaceString1 =
-    'import org.apache.cordova.*;\nimport android.content.Intent;\nimport com.electricimp.blinkup.BlinkupController;'; // jshint ignore:line
+    'import com.eades.plugin.*;\nimport org.apache.cordova.*;\nimport android.content.Intent;\nimport com.electricimp.blinkup.BlinkupController;'; // jshint ignore:line
 
   var matchString2 = 'public class MainActivity extends CordovaActivity\n{';
   var replaceString2 = fs.readFileSync(path.join(__dirname, 'main_activity_inject.txt'), 'utf-8');
@@ -27,7 +27,7 @@ module.exports = function(ctx) {
   console.log('srcPath : ', srcPath);
 
   var mainActivityPath = 'platforms/android/src/' + srcPath + '/MainActivity.java';
-  var writePath = 'platforms/android/src/com/eades/plugin/MainActivity.java';
+  //var writePath = 'platforms/android/src/com/eades/plugin/MainActivity.java';
 
   console.log('mainActivityPath : ', mainActivityPath);
 
@@ -46,7 +46,7 @@ module.exports = function(ctx) {
       var result = data.replace(matchString1, replaceString1);
       result = result.replace(matchString2, replaceString2);
 
-      fs.writeFile(path.join(ctx.opts.projectRoot, writePath),
+      fs.writeFile(path.join(ctx.opts.projectRoot, mainActivityPath),
         result, 'utf-8',
         function(err) {
           if (err) {
@@ -55,10 +55,6 @@ module.exports = function(ctx) {
           console.log('CordovaBlinkUp Plugin: MainActivity injection successfullly');
           deferral.resolve();
         });
-      // delete the old one
-      fs.unlink(path.join(ctx.opts.projectRoot, mainActivityPath), function (err) {
-        if (err) return console.log(err);
-      });
     });
   return deferral.promise;
 };
