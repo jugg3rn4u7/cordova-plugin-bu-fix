@@ -1,96 +1,79 @@
 package com.eades.plugin;
 
-import org.apache.cordova.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
-import com.electricimp.blinkup.BlinkupController;
-import com.electricimp.blinkup.TokenStatusCallback;
-import com.electricimp.blinkup.TokenAcquireCallback;
-import com.electricimp.blinkup.ServerErrorHandler;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
+import android.text.TextUtils;
+
+import com.electricimp.blinkup.BlinkupController;
+import com.electricimp.blinkup.TokenStatusCallback;
+import com.eades.plugin.util.PreferencesHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+public class BlinkUpCompleteActivity extends Activity {
 
-public class BlinkupCompleteActivity extends Activity {
-    final private String TAG = "EADES BU PLUGIN";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-    private BlinkupController blinkup;
-    private TokenStatusCallback tokenStatusCallback = new TokenStatusCallback() {
-        @Override public void onSuccess(JSONObject json) {
-            Log.i(TAG, "TokenStatusCallback : SUCCESS : " + json.toString());
-            
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(BlinkupCompleteActivity.this);
-            SharedPreferences.Editor editor = pref.edit();
+    private static final String TAG = "EADES ----> BlinkUpCompleteActivity";
 
-            try {
-                String dateStr = json.getString("claimed_at");
-                dateStr = dateStr.replace("Z", "+0:00");
-                Date claimedAt = dateFormat.parse(dateStr);
-
-                String planId = json.getString("plan_id");
-                String agentUrl = json.getString("agent_url");
-
-                String impeeId = json.getString("impee_id");
-                if (impeeId != null) {
-                    impeeId = impeeId.trim();
-                }
-
-                editor.putString("planId", planId);
-                editor.putString("agentUrl", agentUrl);
-                editor.putLong("claimedAt", claimedAt.getTime());
-                editor.putString("impeeId", impeeId);
-                editor.commit();
-
-                Log.i(TAG, "planId : " + planId);
-                Log.i(TAG, "agentUrl : " + agentUrl);
-                Log.i(TAG, "impeeId : " + impeeId);
-
-                finish();
-            } catch (JSONException e) {
-                onError(e.getMessage());
-            } catch (ParseException e) {
-                onError(e.getMessage());
-            }
-        }
-
-        @Override public void onError(String errorMsg) {
-            Log.e(TAG, "TokenStatusCallback : ERROR : " + errorMsg);
-            //Toast.makeText(_context, errorMsg, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override public void onTimeout() {
-            Log.e(TAG, "TokenStatusCallback : Timed out");
-            //Toast.makeText(_context, "Timed out", Toast.LENGTH_SHORT).show();
-        }
-    };
-  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        blinkup = BlinkupController.getInstance();
+
+        int timeoutMs = getIntent().getIntExtra(Extras.EXTRA_TIMEOUT_MS, 30000);
+        getDeviceInfo(timeoutMs);
+
+        BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+        pluginResult.setState(BlinkUpPluginResult.STATE_STARTED);
+        pluginResult.setStatusCode(BlinkUpPlugin.STATUS_GATHERING_INFO);
+        pluginResult.sendResultsToCallback();
+
+        finish();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        blinkup.getTokenStatus(tokenStatusCallback);
-    }
+    private void getDeviceInfo(int timeoutMs) {
+        final TokenStatusCallback tokenStatusCallback = new TokenStatusCallback() {
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        blinkup.cancelTokenStatusPolling();
+            //---------------------------------
+            // give connection info to Cordova
+            //---------------------------------
+            @Override public void onSuccess(JSONObject json) {
+                BlinkUpPluginResult successResult = new BlinkUpPluginResult();
+                successResult.setState(BlinkUpPluginResult.STATE_COMPLETED);
+                successResult.setStatusCode(BlinkUpPlugin.STATUS_DEVICE_CONNECTED);
+                successResult.setDeviceInfoFromJson(json);
+                successResult.sendResultsToCallback();
+
+                // cache planID if not development ID (see electricimp.com/docs/manufacturing/planids/)
+                try {
+                    String planId = json.getString(BlinkUpPluginResult.SDK_PLAN_ID_KEY);
+                    PreferencesHelper.setPlanId(BlinkUpCompleteActivity.this, planId);
+                } catch (JSONException e) {
+                    BlinkUpPluginResult.sendPluginErrorToCallback(BlinkUpPlugin.ERROR_JSON_ERROR);
+                }
+            }
+
+            //---------------------------------
+            // give error msg to Cordova
+            //---------------------------------
+            @Override public void onError(String errorMsg) {
+                // can't use "sendPluginErrorToCallback" since this is an SDK error
+                BlinkUpPluginResult errorResult = new BlinkUpPluginResult();
+                errorResult.setState(BlinkUpPluginResult.STATE_ERROR);
+                errorResult.setBlinkUpError(errorMsg);
+                errorResult.sendResultsToCallback();
+            }
+
+            //---------------------------------
+            // give timeout message to Cordova
+            //---------------------------------
+            @Override public void onTimeout() {
+                BlinkUpPluginResult.sendPluginErrorToCallback(BlinkUpPlugin.ERROR_PROCESS_TIMED_OUT);
+            }
+        };
+
+        // request the device info from the server
+        BlinkupController.getInstance().getTokenStatus(tokenStatusCallback, timeoutMs);
     }
 }

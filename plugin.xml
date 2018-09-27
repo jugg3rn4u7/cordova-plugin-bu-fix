@@ -21,7 +21,7 @@
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Bu">
-        <param name="android-package" value="com.eades.plugin.Bu"/>
+        <param name="android-package" value="com.eades.plugin.BlinkUpPlugin"/>
       </feature>
     </config-file>
 
@@ -50,9 +50,13 @@
         <activity android:name="com.electricimp.blinkup.InterstitialActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
     </config-file>
 
-    <source-file src="src/android/Bu.java" target-dir="src/com/eades/plugin"/>
-    <source-file src="src/android/BlinkupCompleteActivity.java" target-dir="src/com/eades/plugin"/>
-    <source-file src="src/android/MainActivity.java" target-dir="src/com/eades/plugin"/>
+    <source-file src="src/android/BlinkUpPlugin.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/BlinkUpPluginResult.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/BlinkUpCompleteActivity.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/ClearCompleteActivity.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/Extras.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/util/DebugUtils.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/util/PreferencesHelper.java" target-dir="src/com/eades/plugin/util" />
   </platform>
 
   <platform name="ios">
