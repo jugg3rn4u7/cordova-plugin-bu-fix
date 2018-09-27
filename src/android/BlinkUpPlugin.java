@@ -26,7 +26,6 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
     // only needed in this class
     private String mApiKey;
-    private Boolean mGeneratePlanId = false;
 
     static final int STATUS_DEVICE_CONNECTED = 0;
     static final int STATUS_GATHERING_INFO = 200;
