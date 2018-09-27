@@ -22,7 +22,11 @@ module.exports = function(ctx) {
   // takes package id (ex: com.macadamian.myapp) and turns it into the source path (ex: com/macadamian/myapp)
   var srcPath = cfg.packageName().replace(/\./g, '/');
 
+  console.log('srcPath : ', srcPath);
+
   var mainActivityPath = 'platforms/android/src/' + srcPath + '/MainActivity.java';
+
+  console.log('mainActivityPath : ', mainActivityPath);
 
   fs.readFile(path.join(ctx.opts.projectRoot, mainActivityPath),
     'utf-8',
