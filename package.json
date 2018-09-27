@@ -1,0 +1,29 @@
+{
+  "name": "cordova-plugin-bu",
+  "version": "0.1.0",
+  "description": "Electric Imps blink up plugin for SousVide Supreme",
+  "cordova": {
+    "id": "cordova-plugin-bu",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "bu",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Shrikant Kakaraparthi",
+  "license": "Apache-2",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}

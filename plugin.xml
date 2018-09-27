@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="cordova-plugin-bu"
+        version="0.1.0">
+
+  <name>Blinkup</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/bu.js" target="js/bu.js"/>
+
+  <js-module src="www/bu.js" name="bu">
+    <clobbers target="bu" />
+  </js-module>
+
+  <platform name="android">
+    <framework src="src/android/bu.gradle" custom="true" type="gradleReference" />
+    <resource-file src="libs-aar/blinkup.aar" target="libs/blinkup.aar" />
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="Bu">
+        <param name="android-package" value="com.eades.plugin.Bu"/>
+      </feature>
+    </config-file>
+
+    <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
+        <manifest android:hardwareAccelerated="true"></manifest>
+        <manifest android:versionCode="10000"></manifest>
+        <manifest android:versionName="1.0.0"></manifest>
+        <manifest package="com.eades.test"></manifest>
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"></manifest>
+        <manifest xmlns:tools="http://schemas.android.com/tools"></manifest>
+    </edit-config>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:name="com.electricimp.blinkup.WifiSelectActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+        <activity android:name="com.electricimp.blinkup.BlinkupGLActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" tools:replace="android:screenOrientation"/>
+        <activity android:name="com.electricimp.blinkup.WifiActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+        <activity android:name="com.electricimp.blinkup.WPSActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+        <activity android:name="com.electricimp.blinkup.ClearWifiActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+        <activity android:name="com.electricimp.blinkup.InterstitialActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+    </config-file>
+
+    <source-file src="src/android/Bu.java" target-dir="src/com/eades/plugin"/>
+    <source-file src="src/android/BlinkupCompleteActivity.java" target-dir="src/com/eades/plugin"/>
+    <source-file src="src/android/MainActivity.java" target-dir="src/com/eades/plugin"/>
+  </platform>
+
+  <platform name="ios">
+    
+    <config-file target="config.xml" parent="/widget">
+      <feature name="Hello">
+        <param name="ios-package" value="HWPHello" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/HWPHello.h" target-dir="HelloPlugin"/>
+    <source-file src="src/ios/HWPHello.m" target-dir="HelloPlugin"/>
+  </platform>
+
+</plugin>
