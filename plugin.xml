@@ -29,11 +29,11 @@
     </config-file>
 
     <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
-        <manifest android:hardwareAccelerated="true"></manifest>
+        <!-- <manifest android:hardwareAccelerated="true"></manifest>
         <manifest android:versionCode="10000"></manifest>
         <manifest android:versionName="1.0.0"></manifest>
         <manifest package="com.eades.plugin"></manifest>
-        <manifest xmlns:android="http://schemas.android.com/apk/res/android"></manifest>
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"></manifest> -->
         <manifest xmlns:tools="http://schemas.android.com/tools"></manifest>
     </edit-config>
 
