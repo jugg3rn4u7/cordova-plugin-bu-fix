@@ -33,9 +33,9 @@ module.exports = function(ctx) {
   fs.readFile(path.join(ctx.opts.projectRoot, mainActivityPath),
     'utf-8',
     function(err, data) {
-      if (err) {
-        return deferral.reject('CordovaBlinkUp Plugin: Read file operation failed for ' + mainActivityPath);
-      }
+      // if (err) {
+      //   return deferral.reject('CordovaBlinkUp Plugin: Read file operation failed for ' + mainActivityPath);
+      // }
 
       if (data.indexOf(replaceString1) !== -1) {
         console.log('CordovaBlinkUp Plugin: MainActivity already injected.');
