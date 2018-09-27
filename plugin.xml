@@ -58,7 +58,7 @@
     <source-file src="src/android/BlinkUpCompleteActivity.java" target-dir="src/com/eades/plugin" />
     <source-file src="src/android/ClearCompleteActivity.java" target-dir="src/com/eades/plugin" />
     <source-file src="src/android/Extras.java" target-dir="src/com/eades/plugin" />
-    <source-file src="src/android/util/DebugUtils.java" target-dir="src/com/eades/plugin" />
+    <source-file src="src/android/util/DebugUtils.java" target-dir="src/com/eades/plugin/util" />
     <source-file src="src/android/util/PreferencesHelper.java" target-dir="src/com/eades/plugin/util" />
   </platform>
 
