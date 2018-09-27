@@ -22,7 +22,7 @@ module.exports = function(ctx) {
   console.log('xml : ', xml);
 
   // takes package id (ex: com.macadamian.myapp) and turns it into the source path (ex: com/macadamian/myapp)
-  var srcPath = cfg.replace(/\./g, '/');
+  var srcPath = cfg.packageName().replace(/\./g, '/');
 
   console.log('srcPath : ', srcPath);
 
