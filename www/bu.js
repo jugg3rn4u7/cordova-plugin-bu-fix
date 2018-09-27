@@ -2,6 +2,6 @@
 
 module.exports = {
     startBu: function (apiKey, timeoutMs, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, "cordova-blinkup-plugin", "startBlinkUp", [apiKey, timeoutMs]);
+        cordova.exec(successCallback, errorCallback, "cordova-blinkup-plugin", "startBu", [apiKey, timeoutMs]);
     }
 };
