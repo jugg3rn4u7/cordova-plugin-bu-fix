@@ -19,6 +19,8 @@ module.exports = function(ctx) {
   var xml = cordovaUtil.projectConfig(ctx.opts.projectRoot);
   var cfg = new ConfigParser(xml);
 
+  console.log('xml : ', xml);
+
   // takes package id (ex: com.macadamian.myapp) and turns it into the source path (ex: com/macadamian/myapp)
   var srcPath = cfg.packageName().replace(/\./g, '/');
 
