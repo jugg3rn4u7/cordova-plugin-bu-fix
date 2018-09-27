@@ -39,13 +39,8 @@ public class BlinkUpPlugin extends CordovaPlugin {
     static final int ERROR_VERIFY_API_KEY_FAIL = 301; // android only
     static final int ERROR_JSON_ERROR = 302;          // android only
 
-    private static final int INVOKE_BLINKUP_ARG_API_KEY = 0;
-    private static final int INVOKE_BLINKUP_ARG_DEVELOPER_PLAN_ID = 1;
-    private static final int INVOKE_BLINKUP_ARG_TIMEOUT_MS = 2;
-    private static final int INVOKE_BLINKUP_ARG_GENERATE_PLAN_ID = 3;
-
     private static final int START_BLINKUP_ARG_API_KEY = 0;
-    private static final int START_BLINKUP_ARG_TIMEOUT_MS = 3;
+    private static final int START_BLINKUP_ARG_TIMEOUT_MS = 1;
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
