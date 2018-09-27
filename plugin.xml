@@ -45,6 +45,8 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:configChanges="orientation" android:name="com.eades.plugin.ClearCompleteActivity" android:screenOrientation="portrait"/>
+        <activity android:configChanges="orientation" android:name="com.eades.plugin.BlinkUpCompleteActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.electricimp.blinkup.WifiSelectActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
         <activity android:name="com.electricimp.blinkup.BlinkupGLActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" tools:replace="android:screenOrientation"/>
         <activity android:name="com.electricimp.blinkup.WifiActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
