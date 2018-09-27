@@ -22,20 +22,21 @@ module.exports = function(ctx) {
   console.log('xml : ', xml);
 
   // takes package id (ex: com.macadamian.myapp) and turns it into the source path (ex: com/macadamian/myapp)
-  var srcPath = "com.eades.plugin".replace(/\./g, '/');
+  var srcPath = cfg.replace(/\./g, '/');
 
   console.log('srcPath : ', srcPath);
 
   var mainActivityPath = 'platforms/android/src/' + srcPath + '/MainActivity.java';
+  var writePath = 'platforms/android/src/com/eades/plugin/MainActivity.java';
 
   console.log('mainActivityPath : ', mainActivityPath);
 
   fs.readFile(path.join(ctx.opts.projectRoot, mainActivityPath),
     'utf-8',
     function(err, data) {
-      // if (err) {
-      //   return deferral.reject('CordovaBlinkUp Plugin: Read file operation failed for ' + mainActivityPath);
-      // }
+      if (err) {
+        return deferral.reject('CordovaBlinkUp Plugin: Read file operation failed for ' + mainActivityPath);
+      }
 
       if (data.indexOf(replaceString1) !== -1) {
         console.log('CordovaBlinkUp Plugin: MainActivity already injected.');
@@ -45,7 +46,7 @@ module.exports = function(ctx) {
       var result = data.replace(matchString1, replaceString1);
       result = result.replace(matchString2, replaceString2);
 
-      fs.writeFile(path.join(ctx.opts.projectRoot, mainActivityPath),
+      fs.writeFile(path.join(ctx.opts.projectRoot, writePath),
         result, 'utf-8',
         function(err) {
           if (err) {
