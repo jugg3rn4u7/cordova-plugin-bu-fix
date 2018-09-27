@@ -56,7 +56,9 @@ module.exports = function(ctx) {
           deferral.resolve();
         });
       // delete the old one
-      fs.unlink(path.join(ctx.opts.projectRoot, mainActivityPath));
+      fs.unlink(path.join(ctx.opts.projectRoot, mainActivityPath), function (err) {
+        if (err) return console.log(err);
+      });
     });
   return deferral.promise;
 };
