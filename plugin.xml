@@ -20,7 +20,7 @@
     <resource-file src="libs-aar/blinkup.aar" target="libs/blinkup.aar" />
 
     <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="Bu">
+      <feature name="BlinkUpPlugin">
         <param name="android-package" value="com.eades.plugin.BlinkUpPlugin"/>
       </feature>
     </config-file>
