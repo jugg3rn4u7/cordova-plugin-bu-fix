@@ -27,7 +27,7 @@
 // Shows BlinkUp UI for user to enter wifi details and
 // perform the screen flash process to connect to an Imp
 //------------------------------------------------------
-- (void)startBlinkUp:(CDVInvokedUrlCommand *)command;
+- (void)startBu:(CDVInvokedUrlCommand *)command;
 
 // instance variables
 @property (strong) BUBasicController *blinkUpController;

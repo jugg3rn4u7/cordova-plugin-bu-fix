@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, InvokeBlinkupArguments) {
 /*********************************************************
  * Parses arguments from javascript and displays BlinkUp
  ********************************************************/
-- (void)startBlinkUp:(CDVInvokedUrlCommand*)command {
+- (void)startBu:(CDVInvokedUrlCommand*)command {
     NSLog(@"startBlinkUp Started.");
 
     _callbackId = command.callbackId;
