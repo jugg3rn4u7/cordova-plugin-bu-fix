@@ -56,15 +56,24 @@
   </platform>
 
   <platform name="ios">
-    
-    <config-file target="config.xml" parent="/widget">
-      <feature name="Hello">
-        <param name="ios-package" value="HWPHello" />
-      </feature>
-    </config-file>
+      <config-file target="config.xml" parent="/*">
+          <feature name="BlinkUpPlugin">
+              <param name="ios-package" value="BlinkUpPlugin" />
+          </feature>
+          <preference name="DisallowOverscroll" value="true" />
+      </config-file>
 
-    <header-file src="src/ios/HWPHello.h" target-dir="HelloPlugin"/>
-    <source-file src="src/ios/HWPHello.m" target-dir="HelloPlugin"/>
+      <framework src="Security.framework"/>
+      <framework src="OpenGLES.framework"/>
+      <framework src="QuartzCore.framework"/>
+      <framework src="SystemConfiguration.framework"/>
+
+      <header-file src="src/ios/BlinkUpPlugin.h" />
+      <source-file src="src/ios/BlinkUpPlugin.m" />
+      <header-file src="src/ios/BlinkUpPluginResult.h" />
+      <source-file src="src/ios/BlinkUpPluginResult.m" />
+      <header-file src="src/ios/BUDeviceInfo+JSON.h" />
+      <source-file src="src/ios/BUDeviceInfo+JSON.m" />
   </platform>
 
 </plugin>
