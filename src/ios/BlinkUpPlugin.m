@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, InvokeBlinkupArguments) {
             return;
         }
 
-        NSLog(@"startBlinkUp. timeoutMs? %ld", (long)_timeoutMs);
+        NSLog(@"startBlinkUp. timeoutMs? %ld apiKey? %@", (long)_timeoutMs, _apiKey);
 
         [self navigateToBlinkUpView];
     }];
